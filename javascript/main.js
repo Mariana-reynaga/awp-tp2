@@ -11,6 +11,7 @@ let favoritos=[];
 let peliculas = 'https://www.omdbapi.com/?s=&type=movie&apikey=301ed5d1';
 let pelicula = 'https://www.omdbapi.com/?i=&apikey=301ed5d1';
 
+//Evento que escucha que busca el usuario
 form.addEventListener('submit', (e)=>{
     e.preventDefault();
     
@@ -25,7 +26,7 @@ form.addEventListener('submit', (e)=>{
     getPelis();
 });
 
-
+//trae todas las peliculas que coinciden con la busqueda
 const getPelis = async()=>{
     
     let ruta = peliculas;
@@ -41,19 +42,20 @@ const getPelis = async()=>{
         datosPelis=[];
         datosPelis.push(data.Search);
         
-        imprimirPoster(datosPelis);
+        imprimirPeliculas(datosPelis);
     
         console.log(datosPelis[0]);
     }
 
 } 
 
-function imprimirPoster(datosPelis){
+//imprime todas las peliculas
+function imprimirPeliculas(datosPelis){
     tarjeta.innerHTML=` `;
 
     datosPelis[0].forEach(peli => {
-        tarjeta.innerHTML+=
-            `<div class="d-flex align-items-center flex-column my-2">
+        tarjeta.innerHTML+=`
+            <div class="d-flex align-items-center flex-column p-2 m-2 bg-info rounded" style="width:18rem;">
                 <img src="${peli.Poster}" class="img-thumbnail">
                 <h2>${peli.Title}</h2>
                 <button class="btn" onclick="peliIndv(this)" data-id="${peli.imdbID}">Ver más</button>
@@ -62,6 +64,7 @@ function imprimirPoster(datosPelis){
     });
 };
 
+//Cuando el usuario clickea el btn 'ver más', hace un fetch a la API 
 function peliIndv(id){
     let peli = id.getAttribute("data-id")
 
@@ -72,6 +75,7 @@ function peliIndv(id){
     getPeliIndv();
 }
 
+//Guarda los datos de la pelicula individual
 const getPeliIndv = async()=>{
     
     let ruta = pelicula;
@@ -86,21 +90,21 @@ const getPeliIndv = async()=>{
 
         datosPeliIndv.push(dataIndv);
         
-        imprimirModal();
+        imprimirDatos();
 
         console.log(datosPeliIndv[0]);
     }
 
 } 
 
-
-function imprimirModal(){
+//Imprime la tarjeta con los datos de la peli individual
+function imprimirDatos(){
     tarjeta.innerHTML=` `;
 
     tarjeta.innerHTML= `
         <img src="${datosPeliIndv[0].Poster}" style="height: 500px; height: 500px;">
 
-        <div class="container-fluid d-flex flex-column mt-md-3 mt-lg-0 m-0 justify-content-md-center align-items-md-center  justify-content-lg-evenly">
+        <div class="container-fluid d-flex flex-column mt-md-3 mt-lg-0 m-0 justify-content-md-center align-items-md-center   justify-content-lg-evenly">
             <h1 class="text-center">${datosPeliIndv[0].Title}</h1>
                 
             <div class="container d-flex justify-content-center">
@@ -112,39 +116,22 @@ function imprimirModal(){
             </div>
 
             <div class="mt-md-4 mt-lg-0" id="sinopsis">
-                <h2 class="fw-semibold fs-3" >Sinopsis:</h2>
+                <h2 class="fw-semibold fs-3 mt-2" >Sinopsis:</h2>
                 <p>${datosPeliIndv[0].Plot}</p>
             </div>
-
-        </div>`;
+        </div>
+        `;
 }
 
-// function imprimirPoster(datosPeli){
-//     tarjeta.innerHTML=` `;
-    
-//     tarjeta.innerHTML=`
-//         <img src="${datosPeli[0].Poster}" style="height: 500px; height: 500px;">
-
-//         <div class="container-fluid d-flex flex-column mt-md-3 mt-lg-0 m-0 justify-content-md-center align-items-md-center  justify-content-lg-evenly">
-//             <h1 class="text-center">${datosPeli[0].Title}</h1>
-                
-//             <div class="container d-flex justify-content-center">
-//                 <ul class="list-group" style="width: 80%;">
-//                     <li class="list-group-item">Estreno: ${datosPeli[0].Released} </li>
-//                     <li class="list-group-item">Director: ${datosPeli[0].Director}</li>
-//                     <li class="list-group-item">Duración: ${datosPeli[0].Runtime} </li>
-//                 </ul>
-//             </div>
-
-//             <div class="mt-md-4 mt-lg-0" id="sinopsis">
-//                 <h2 class="fw-semibold fs-3" >Sinopsis:</h2>
-//                 <p>${datosPeli[0].Plot}</p>
-//             </div>
-
-//         </div>`
-// };
-
+//En caso de que el titulo no sea valido imprime el error
 function imprimirError() {
     tarjeta.innerHTML=` `;
     tarjeta.innerHTML=`<h2>Ocurrio un Error. Porfavor Ingresar un Titulo Valido.</h2>`;
+}
+
+//service worker
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js');
+}else{
+    alert("Este browser no soporta esta tecnologia")
 }
