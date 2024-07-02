@@ -1,1 +1,1 @@
-<h3 align="center">Trabajo Practico 2 - Buscador de Cocktails</h3>
+<h3 align="center">Trabajo Practico 2 - Buscador de Peliculas</h3>
