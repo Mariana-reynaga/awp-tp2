@@ -1,0 +1,25 @@
+#header{
+    background-color: #da344d;
+}
+
+#tarjeta, #listaFav{
+    background-color: #FFDFDE;
+}
+
+.btn{
+    background-color: #DA344D;
+    color: white;
+    padding: 10px;
+} .btn:hover{
+    background-color: none;
+    border: solid 1px #DA344D ;
+    color: #DA344D;
+    font-weight: bold;
+    padding: 10px;
+}
+
+a{
+    color: white;
+} a:hover{
+    color: #DA344D;
+}
