@@ -102,7 +102,6 @@ if (navigator.onLine) {
     function imprimirDatos(){
         tarjeta.innerHTML=` `;
         
-
         tarjeta.innerHTML= `
             <img src="${datosPeliIndv[0].Poster}" style="height: 500px; height: 500px;">
     
@@ -152,7 +151,6 @@ if (navigator.onLine) {
     }
 
     function favEmpty(){
-        console.log("meow")
         tarjeta.innerHTML=` `;
         tarjeta.innerHTML=`<h2>No hay películas en favoritos</h2>`;
     }
@@ -164,11 +162,10 @@ if (navigator.onLine) {
 
         if (local !== null ) {
             if (local.length > 2) {
-                console.log("llamada")
                 listaFavs = JSON.parse(local);
     
                 imprimirFavs();
-                
+
             }else{
                 favEmpty()
             }
