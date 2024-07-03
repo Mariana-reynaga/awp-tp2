@@ -1,37 +1,41 @@
 console.log("conectado el sw");
 
-self.addEventListener("install", (e)=>{
-    e.waitUntil(caches);
+const cacheNom = 'files';
+const cacheAssets = [
+    '/',
+    'estilos/estilos.css',
+    'icons',
+    'browserconfig.xml',
+    'index.html',
+    'main.js',
+    'manifest.json',
+    'README.md',
+    'sw.js',
+    'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css',
+];
+
+self.addEventListener('install', (evento)=> {
+    const cache =  caches.open(cacheNom).then( cache => {
+        return cache.addAll( cacheAssets )
+    })
+    
+    evento.waitUntil( cache );
 })
 
 self.addEventListener('activate', (evento) => {
-    caches.open("buscadorFiles").then(data=>{
-        return data.addAll([
-            '/',
-            '/index.html',
-            '/main.js',
-            'README.md',
-            'estilos/estilos.css',
-            '/sw.js',
-            'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css',
-            '/icons',
-            '/manifest.json',
-            '/browserconfig.xml'
-        ]);
-    });
-
-    console.log('se activo el service worker');
+    console.log('SW activado  dds');
 })
 
 self.addEventListener("fetch",(e)=>{
-    const respuestaCache = fetch(e.request).then(respuestaNet =>{
-        return caches.open('buscadorFiles').then(data=>{
+    const respuestaCache = fetch(e.request).then((respuestaNet) =>{
+        return caches.open('files').then((data)=>{
             data.put(e.request, respuestaNet.clone());
             return respuestaNet;
         })
-    }).catch(error =>{
+        
+    }).catch( () =>{
         return caches.match(e.request);
     })
 
-    e.respondWith(respuestaCache);
+    e.respondWith(  respuestaCache  ); 
 })

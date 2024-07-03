@@ -29,6 +29,12 @@ if (navigator.onLine) {
         getPelis();
     });
     
+    function getHome(){
+        tarjeta.innerHTML=` `;
+
+        tarjeta.innerHTML=`<h2>Busque una película</h2>`;
+    }
+
     //trae todas las peliculas que coinciden con la busqueda
     const getPelis = async()=>{
         
@@ -149,70 +155,77 @@ if (navigator.onLine) {
 
         window.localStorage.setItem('favoritos', JSON.stringify(favoritos));
     }
+} else {
+    tarjeta.innerHTML=` `;
+    tarjeta.innerHTML=`<h2>Conexión Perdida, espere a conectarse de vuelta para realizar busquedas.</h2>`;
 
-    function favEmpty(){
+    function getHome(){
         tarjeta.innerHTML=` `;
-        tarjeta.innerHTML=`<h2>No hay películas en favoritos</h2>`;
+
+        tarjeta.innerHTML=`<h2>Conexión Perdida, espere a conectarse de vuelta para realizar busquedas.</h2>`;
     }
 
-    function TraerFav(){
-        listaFavs = [];
+    form.addEventListener('submit', (e)=>{
+        e.preventDefault();
+        
+        tarjeta.innerHTML=` `;
+        tarjeta.innerHTML=`<h2>No hay conexión, porfavor espere a tener conexión para buscar.</h2>`;
+    });
+}
 
-        const local = localStorage.getItem("favoritos");
+function favEmpty(){
+    tarjeta.innerHTML=` `;
+    tarjeta.innerHTML=`<h2>No hay películas en favoritos</h2>`;
+}
 
-        if (local !== null ) {
-            if (local.length > 2) {
-                listaFavs = JSON.parse(local);
-    
-                imprimirFavs();
+function TraerFav(){
+    listaFavs = [];
 
-            }else{
-                favEmpty()
-            }
-            
+    const local = localStorage.getItem("favoritos");
+
+    if (local !== null ) {
+        if (local.length > 2) {
+            listaFavs = JSON.parse(local);
+
+            imprimirFavs();
+
         }else{
             favEmpty()
         }
-    }
-
-    function imprimirFavs(){
-        tarjeta.innerHTML=` `;
         
-        listaFavs.forEach((peli, index) => {
-            tarjeta.innerHTML+=`
-                <div class="d-flex align-items-center flex-column p-2 m-2 bg-info rounded" style="width:18rem;">
-                    <img src="${peli.poster}" class="img-thumbnail">
-                    <h2>${peli.titulo}</h2>
-                    <button class="btn" onclick="peliIndv(this)" data-id="${peli.id}" >Ver más</button>
-                    <button class="btn mt-2" onclick="elim(this)" data-index="${index}">Eliminar</button>
-                </div>`;
-        
-        });
+    }else{
+        favEmpty()
     }
-
-
-    function elim(ar){
-        let lista = JSON.parse(localStorage.getItem("favoritos"));
-
-        const item = ar.getAttribute("data-index")
-
-        let del = lista.splice(item,1)
-
-        console.log(lista)
-
-        window.localStorage.setItem('favoritos', JSON.stringify(lista));
-
-        TraerFav()
-    }
-
-
-
-} else {
-    tarjeta.innerHTML=` `;
-
-    tarjeta.innerHTML=` <h2>Conexión Perdida, espere a conectarse de vuelta para realizar busquedas.</h2>`;
 }
 
+function imprimirFavs(){
+    tarjeta.innerHTML=` `;
+    
+    listaFavs.forEach((peli, index) => {
+        tarjeta.innerHTML+=`
+            <div class="d-flex align-items-center flex-column p-2 m-2 bg-info rounded" style="width:18rem;">
+                <img src="${peli.poster}" class="img-thumbnail">
+                <h2>${peli.titulo}</h2>
+                <button class="btn" onclick="peliIndv(this)" data-id="${peli.id}" >Ver más</button>
+                <button class="btn mt-2" onclick="elim(this)" data-index="${index}">Eliminar</button>
+            </div>`;
+    
+    });
+}
+
+function elim(ar){
+    let lista = JSON.parse(localStorage.getItem("favoritos"));
+
+    const item = ar.getAttribute("data-index")
+
+    let del = lista.splice(item,1)
+
+    console.log(lista)
+
+    window.localStorage.setItem('favoritos', JSON.stringify(lista));
+
+    TraerFav()
+}
 
 //En caso de que el titulo no sea valido imprime el error
 function imprimirError() {
@@ -222,7 +235,9 @@ function imprimirError() {
 
 //service worker
 if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js');
-}else{
-    alert("Este browser no soporta esta tecnologia")
+
+    window.addEventListener("load", () =>{
+        navigator.serviceWorker.register("sw.js").then( (register) => console.info("SW registrado")).catch((error)=>console.error("Error en el SW", {error}));
+    })
+
 }
