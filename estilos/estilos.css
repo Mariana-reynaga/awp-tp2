@@ -18,8 +18,27 @@
     padding: 10px;
 }
 
+#fav{
+    border: solid 1px #FFDFDE;
+} #fav:hover{
+    background-color: #FFDFDE;
+    color: #DA344D;
+} 
+ 
+#estrellaH{
+    display: none;
+}
+#estrellaH:hover {
+    display: block;
+}
+
 a{
     color: white;
 } a:hover{
     color: #DA344D;
+}
+
+header img{
+    width: 5vw;
+    height: 5vw;
 }

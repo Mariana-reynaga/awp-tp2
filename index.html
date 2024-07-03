@@ -34,10 +34,19 @@
 
 <body>
     <header class="container-fluid p-5" id="header">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/index.html"><h1>Buscador de Peliculas</h1></a>
-        </div>
+        <div class="container d-flex flex-column flex-md-row">
+            <div class="container-fluid d-flex align-items-center justify-content-center justify-md-content-start">
+                <a class="navbar-brand" href="/index.html"><h1>Buscador de Peliculas</h1></a>
+            </div>
+    
+            <div class="container d-flex justify-content-center">
+                <button class="btn d-flex align-items-center justify-content-center flex-row" id="fav" onclick="TraerFav()">
+                    <img src="icons/icono-estrella.svg" >
+                    <p class="m-0 ms-2 fs-3 fw-semibold">Favoritos</p>
+                </button>
+            </div>
 
+        </div>
     </header>
 
     <main>

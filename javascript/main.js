@@ -7,6 +7,7 @@ let palabras=[];
 let datosPelis=[];
 let datosPeliIndv=[];
 let favoritos=[];
+let listaFavs = [];
 
 let peliculas = 'https://www.omdbapi.com/?s=&type=movie&apikey=301ed5d1';
 let pelicula = 'https://www.omdbapi.com/?i=&apikey=301ed5d1';
@@ -121,10 +122,64 @@ if (navigator.onLine) {
                     <h2 class="fw-semibold fs-3 mt-2" >Sinopsis:</h2>
                     <p>${datosPeliIndv[0].Plot}</p>
                 </div>
+
+                <div class="d-flex justify-content-center">
+                    <button class="btn" onclick="añadirFav()" data-id="${datosPeliIndv[0].imdbID}">
+                        Añadir a favoritos
+                    </button>
+                </div>
             </div>
             `;
     }
     
+    function añadirFav(){
+        let historialFavs = localStorage.getItem("favoritos");
+
+        if (historialFavs) {
+            favoritos = JSON.parse(historialFavs);
+
+        }else{
+            favoritos = [];
+
+        }
+
+        favoritos.push({
+            id: datosPeliIndv[0].imdbID,
+            titulo: datosPeliIndv[0].Title,
+            poster: datosPeliIndv[0].Poster
+        });
+
+        window.localStorage.setItem('favoritos', JSON.stringify(favoritos));
+    }
+
+    function TraerFav(){
+        listaFavs = [];
+
+        let local = localStorage.getItem("favoritos");
+
+        if (local) {
+            listaFavs = JSON.parse(local);
+
+            console.log(listaFavs);
+
+            imprimirFavs();
+        }
+    }
+
+    function imprimirFavs(){
+        tarjeta.innerHTML=` `;
+    
+        listaFavs.forEach(peli => {
+            tarjeta.innerHTML+=`
+                <div class="d-flex align-items-center flex-column p-2 m-2 bg-info rounded" style="width:18rem;">
+                    <img src="${peli.poster}" class="img-thumbnail">
+                    <h2>${peli.titulo}</h2>
+                    <button class="btn" onclick="peliIndv(this)" data-id="${peli.id}">Ver más</button>
+                </div>`;
+        
+        });
+    }
+
 } else {
     tarjeta.innerHTML=` `;
 
