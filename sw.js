@@ -9,7 +9,10 @@ self.addEventListener("install", (e)=>{
             'README.md',
             'estilos/estilos.css',
             '/sw.js',
-            'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css'
+            'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css',
+            '/icons',
+            '/manifest.json',
+            'browserconfig.xml'
         ]);
     });
 

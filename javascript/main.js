@@ -2,12 +2,11 @@ let titulo = document.getElementById("buscador");
 const form = document.getElementById("formBuscar");
 let tarjeta = document.getElementById("tarjeta");
 
-
 let palabras=[];
 let datosPelis=[];
 let datosPeliIndv=[];
 let favoritos=[];
-let listaFavs = [];
+let listaFavs = JSON.parse(localStorage.getItem("favoritos"));
 
 let peliculas = 'https://www.omdbapi.com/?s=&type=movie&apikey=301ed5d1';
 let pelicula = 'https://www.omdbapi.com/?i=&apikey=301ed5d1';
@@ -73,8 +72,6 @@ if (navigator.onLine) {
     
         pelicula = `https://www.omdbapi.com/?i=${peli}&apikey=301ed5d1`;
     
-        console.log(peli);
-    
         getPeliIndv();
     }
     
@@ -103,7 +100,8 @@ if (navigator.onLine) {
     //Imprime la tarjeta con los datos de la peli individual
     function imprimirDatos(){
         tarjeta.innerHTML=` `;
-    
+        
+
         tarjeta.innerHTML= `
             <img src="${datosPeliIndv[0].Poster}" style="height: 500px; height: 500px;">
     
@@ -123,15 +121,17 @@ if (navigator.onLine) {
                     <p>${datosPeliIndv[0].Plot}</p>
                 </div>
 
-                <div class="d-flex justify-content-center">
-                    <button class="btn" onclick="añadirFav()" data-id="${datosPeliIndv[0].imdbID}">
+                <div class="d-flex justify-content-center">` 
+
+                    `<button class="btn" onclick="añadirFav()" data-id="${datosPeliIndv[0].imdbID}">
                         Añadir a favoritos
-                    </button>
-                </div>
+                    </button>`
+
+                `</div>
             </div>
             `;
     }
-    
+
     function añadirFav(){
         let historialFavs = localStorage.getItem("favoritos");
 
@@ -140,7 +140,6 @@ if (navigator.onLine) {
 
         }else{
             favoritos = [];
-
         }
 
         favoritos.push({
@@ -160,21 +159,19 @@ if (navigator.onLine) {
         if (local) {
             listaFavs = JSON.parse(local);
 
-            console.log(listaFavs);
-
             imprimirFavs();
         }
     }
 
     function imprimirFavs(){
         tarjeta.innerHTML=` `;
-    
+        
         listaFavs.forEach(peli => {
             tarjeta.innerHTML+=`
                 <div class="d-flex align-items-center flex-column p-2 m-2 bg-info rounded" style="width:18rem;">
                     <img src="${peli.poster}" class="img-thumbnail">
                     <h2>${peli.titulo}</h2>
-                    <button class="btn" onclick="peliIndv(this)" data-id="${peli.id}">Ver más</button>
+                    <button class="btn" onclick="peliIndv(this)" data-id="${peli.id}" >Ver más</button>
                 </div>`;
         
         });
