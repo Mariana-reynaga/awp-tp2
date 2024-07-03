@@ -151,22 +151,30 @@ if (navigator.onLine) {
         window.localStorage.setItem('favoritos', JSON.stringify(favoritos));
     }
 
+    function favEmpty(){
+        console.log("meow")
+        tarjeta.innerHTML=` `;
+        tarjeta.innerHTML=`<h2>No hay películas en favoritos</h2>`;
+    }
+
     function TraerFav(){
         listaFavs = [];
 
         const local = localStorage.getItem("favoritos");
 
-        const key = localStorage.key(0)
-
-        if (local.length > 2) {
-            console.log("llamada")
-            listaFavs = JSON.parse(local);
-
-            imprimirFavs();
+        if (local !== null ) {
+            if (local.length > 2) {
+                console.log("llamada")
+                listaFavs = JSON.parse(local);
+    
+                imprimirFavs();
+                
+            }else{
+                favEmpty()
+            }
+            
         }else{
-            console.log("meow")
-            tarjeta.innerHTML=` `;
-            tarjeta.innerHTML=`<h2>No hay películas en favoritos</h2>`;
+            favEmpty()
         }
     }
 
