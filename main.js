@@ -22,7 +22,7 @@ if (navigator.onLine) {
     
         let nombre = palabras.join('+');
     
-        peliculas = `http://www.omdbapi.com/?s=${nombre}&type=movie&apikey=301ed5d1`;
+        peliculas = `https://www.omdbapi.com/?s=${nombre}&type=movie&apikey=301ed5d1`;
     
         console.log(pelicula);
     
