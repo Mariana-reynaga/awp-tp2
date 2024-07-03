@@ -6,7 +6,8 @@ let palabras=[];
 let datosPelis=[];
 let datosPeliIndv=[];
 let favoritos=[];
-let listaFavs = JSON.parse(localStorage.getItem("favoritos"));
+
+// console.log(JSON.parse(localStorage.getItem("favoritos"))[0].id)
 
 let peliculas = 'https://www.omdbapi.com/?s=&type=movie&apikey=301ed5d1';
 let pelicula = 'https://www.omdbapi.com/?i=&apikey=301ed5d1';
@@ -121,13 +122,11 @@ if (navigator.onLine) {
                     <p>${datosPeliIndv[0].Plot}</p>
                 </div>
 
-                <div class="d-flex justify-content-center">` 
-
-                    `<button class="btn" onclick="añadirFav()" data-id="${datosPeliIndv[0].imdbID}">
+                <div class="d-flex justify-content-center">
+                    <button class="btn" onclick="añadirFav()" data-id="${datosPeliIndv[0].imdbID}">
                         Añadir a favoritos
-                    </button>`
-
-                `</div>
+                    </button>
+                </div>
             </div>
             `;
     }
@@ -137,9 +136,10 @@ if (navigator.onLine) {
 
         if (historialFavs) {
             favoritos = JSON.parse(historialFavs);
-
+            
         }else{
             favoritos = [];
+           
         }
 
         favoritos.push({
@@ -154,28 +154,53 @@ if (navigator.onLine) {
     function TraerFav(){
         listaFavs = [];
 
-        let local = localStorage.getItem("favoritos");
+        const local = localStorage.getItem("favoritos");
 
-        if (local) {
+        const key = localStorage.key(0)
+
+        if (local.length > 2) {
+            console.log("llamada")
             listaFavs = JSON.parse(local);
 
             imprimirFavs();
+        }else{
+            console.log("meow")
+            tarjeta.innerHTML=` `;
+            tarjeta.innerHTML=`<h2>No hay películas en favoritos</h2>`;
         }
     }
 
     function imprimirFavs(){
         tarjeta.innerHTML=` `;
         
-        listaFavs.forEach(peli => {
+        listaFavs.forEach((peli, index) => {
             tarjeta.innerHTML+=`
                 <div class="d-flex align-items-center flex-column p-2 m-2 bg-info rounded" style="width:18rem;">
                     <img src="${peli.poster}" class="img-thumbnail">
                     <h2>${peli.titulo}</h2>
                     <button class="btn" onclick="peliIndv(this)" data-id="${peli.id}" >Ver más</button>
+                    <button class="btn mt-2" onclick="elim(this)" data-index="${index}">Eliminar</button>
                 </div>`;
         
         });
     }
+
+
+    function elim(ar){
+        let lista = JSON.parse(localStorage.getItem("favoritos"));
+
+        const item = ar.getAttribute("data-index")
+
+        let del = lista.splice(item,1)
+
+        console.log(lista)
+
+        window.localStorage.setItem('favoritos', JSON.stringify(lista));
+
+        TraerFav()
+    }
+
+
 
 } else {
     tarjeta.innerHTML=` `;
