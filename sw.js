@@ -15,7 +15,7 @@ const cacheAssets = [
 ];
 
 self.addEventListener('install', (evento)=> {
-    const cache =  caches.open(cacheNom).then( cache => {
+    const cache =  caches.open(cacheNom).then( (cache) => {
         return cache.addAll( cacheAssets )
     })
     
