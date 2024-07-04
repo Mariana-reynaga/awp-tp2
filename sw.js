@@ -28,7 +28,7 @@ self.addEventListener('activate', (evento) => {
 
 self.addEventListener("fetch",(e)=>{
     const respuestaCache = fetch(e.request).then((respuestaNet) =>{
-        return caches.open('files').then((data)=>{
+        return caches.open(cacheNom).then((data)=>{
             data.put(e.request, respuestaNet.clone());
             return respuestaNet;
         })
