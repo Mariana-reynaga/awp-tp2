@@ -2,4 +2,4 @@
 
 Películas galore sirve para buscar películas por nombre, agregarlas a favoritos y verlas offline y Utiliza un metodo de cache network first.
 
-!(https://imgur.com/a/nfwwM9m)
+https://imgur.com/a/nfwwM9m
