@@ -64,7 +64,7 @@ if (navigator.onLine) {
     
         datosPelis[0].forEach(peli => {
             tarjeta.innerHTML+=`
-                <div class="d-flex align-items-center flex-column p-2 m-2 bg-info rounded" style="width:18rem;">
+                <div class="d-flex align-items-center flex-column p-2 m-2 rounded peli" style="width:18rem;">
                     <img src="${peli.Poster}" class="img-thumbnail">
                     <h2>${peli.Title}</h2>
                     <button class="btn" onclick="peliIndv(this)" data-id="${peli.imdbID}">Ver más</button>
@@ -203,7 +203,7 @@ function imprimirFavs(){
     
     listaFavs.forEach((peli, index) => {
         tarjeta.innerHTML+=`
-            <div class="d-flex align-items-center flex-column p-2 m-2 bg-info rounded" style="width:18rem;">
+            <div class="d-flex align-items-center flex-column p-2 m-2 rounded peli" style="width:18rem;">
                 <img src="${peli.poster}" class="img-thumbnail">
                 <h2>${peli.titulo}</h2>
                 <button class="btn" onclick="peliIndv(this)" data-id="${peli.id}" >Ver más</button>
